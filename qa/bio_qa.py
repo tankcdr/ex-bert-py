@@ -13,6 +13,8 @@ def main():
                                        model='ktrapeznikov/biobert_v1.1_pubmed_squad_v2',
                                        tokenizer='ktrapeznikov/biobert_v1.1_pubmed_squad_v2')
         print("Model and tokenizer loaded successfully.")
+
+        basic_classifier = pipeline("question-answering")
     except Exception as e:
         print(f"Error loading model: {e}")
         return
@@ -24,6 +26,9 @@ def main():
     try:
         # Perform question-answering
         result = bio_bert_classifier(question=question, context=context)
+        print(result)
+
+        result = basic_classifier(question=question, context=context)
         print(result)
     except Exception as e:
         print(f"Error during question answering: {e}")
