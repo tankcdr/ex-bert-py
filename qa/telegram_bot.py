@@ -3,6 +3,8 @@ import telebot
 
 from dotenv import load_dotenv
 
+# simple telegram connectivity tester
+
 # Load environment variables from .env file
 load_dotenv()
 
