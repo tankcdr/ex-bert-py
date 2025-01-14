@@ -28,9 +28,14 @@ summarization_text = "The Who are an English rock band formed in London in 1964.
 
 
 def main():
-    summizer = pipeline("summarization")
+    summarizer = pipeline("summarization")
 
-    print(summizer(summarization_text, max_length=20, min_length=5, do_sample=False))
+    print(summarizer(summarization_text, max_length=20,
+          min_length=5, do_sample=False))
+
+    sumt5 = pipeline("summarization", model="t5-base", tokenizer="t5-base")
+    print(sumt5(summarization_text, max_length=20,
+          min_length=5, do_sample=False))
 
 
 if __name__ == "__main__":
