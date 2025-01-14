@@ -2,7 +2,7 @@ import os
 import telebot
 
 from dotenv import load_dotenv
-from transformers import pipeline
+from transformers import pipeline, TextClassificationPipeline, AutoTokenizer, AutoModelForSequenceClassification
 
 
 # Load environment variables from .env file
@@ -22,3 +22,21 @@ customer_message = "I'd like to order a pizza"
 customer_intents = ["choose drink", "order pizza", "inform my address"]
 
 print(nlp_classifier(customer_message, customer_intents))
+
+
+# testing out toxicty detection
+model_checkpoint = 'unitary/toxic-bert'
+tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+model = AutoModelForSequenceClassification.from_pretrained(model_checkpoint)
+
+toxicity_classifier = TextClassificationPipeline(
+    model=model, tokenizer=tokenizer, framework="pt")
+
+for message in [
+    "I love you",
+    "I hate you",
+    "I think you are a jerk",
+    "hi",
+    "you are an ass",
+        "you are a peanut head"]:
+    print(toxicity_classifier(message))
