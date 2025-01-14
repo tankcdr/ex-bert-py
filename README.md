@@ -4,9 +4,10 @@ Experiments with hugging face transformers library.
 
 Some of the more interesting experiments are....
 
-| Python script                   | Description                                                                                                                                                                                          |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| qa/telegram_wikipedia_qa_bot.py | Simple telegram bot that uses the wikipedia api for Q&A. Uses HuggingFace `question_answering` transform to answer questions based on the wikipedia context. Accuracy can be improved significantly. |
+| Python script                    | Description                                                                                                                                                                                          |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| qa/telegram_wikipedia_qa_bot.py  | Simple telegram bot that uses the wikipedia api for Q&A. Uses HuggingFace `question_answering` transform to answer questions based on the wikipedia context. Accuracy can be improved significantly. |
+| nlp/telegram_nlp_toxicity_bot.py | Telegram bot that detects toxicity and intent. Uses Hugginface `zero-shot-classifier` for intent classification and `unitary/toxic-bert` for toxicity classificaiton.                                |
 
 ## Dependencies
 
