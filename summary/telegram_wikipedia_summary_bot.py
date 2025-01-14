@@ -37,6 +37,10 @@ def main():
     print(sumt5(summarization_text, max_length=20,
           min_length=5, do_sample=False))
 
+    title_gen = pipeline(
+        "summarization", model="moussaKam/barthez-orangesum-title")
+    print(title_gen(summarization_text))
+
 
 if __name__ == "__main__":
     main()
