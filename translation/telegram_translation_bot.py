@@ -2,7 +2,8 @@ import os
 import telebot
 
 from dotenv import load_dotenv
-from dl_translate import TranslationModel
+from transformers import pipeline
+
 
 ######################################################################
 # Telegram Translation Bot
@@ -29,12 +30,13 @@ bot = telebot.TeleBot(bot_api_key, parse_mode=None)
 
 
 def main():
-    transalation_model = TranslationModel()
+    # get a BART transfomer model
+    detection = pipeline("zero-shot-classification")
 
-    print(transalation_model.available_languages())
+    test_string = "Eu vou ao supermercado"
+    possible_languages = ["french", "portuguese", "spanish"]
 
-    print(f"Translation: {transalation_model.translate(
-        text="Hello", source="en", target="es")}")
+    print(detection(test_string, possible_languages))
 
 
 if __name__ == "__main__":
