@@ -2,7 +2,6 @@ import os
 import telebot
 import wikipedia
 import nltk
-import re
 
 from dotenv import load_dotenv
 from transformers import pipeline
