@@ -1,10 +1,8 @@
 import os
-import dl_translate
 import telebot
 
 from dotenv import load_dotenv
 from transformers import pipeline
-from dl_translate import TranslationModel
 
 ######################################################################
 # Telegram Translation Bot
@@ -31,12 +29,8 @@ bot = telebot.TeleBot(bot_api_key, parse_mode=None)
 
 
 def main():
-    transalation_model = TranslationModel()
-
-    print(transalation_model.available_languages())
-
-    print(f"Translation: {transalation_model.translate(
-        text="Hello", source="en", target="es")}")
+    translator = pipeline("translation_en_to_fr")
+    print(translator("Hello, how are you?"))
 
 
 if __name__ == "__main__":
