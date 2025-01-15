@@ -1,9 +1,7 @@
 import os
-import dl_translate
 import telebot
 
 from dotenv import load_dotenv
-from transformers import pipeline
 from dl_translate import TranslationModel
 
 ######################################################################
