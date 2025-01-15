@@ -2,6 +2,7 @@ import os
 import telebot
 
 from dotenv import load_dotenv
+from transformers import pipeline
 from dl_translate import TranslationModel
 
 ######################################################################
@@ -24,18 +25,56 @@ load_dotenv(dotenv_path=env_path)
 bot_api_key = os.getenv("TELEGRAM_BOT_KEY")
 bot = telebot.TeleBot(bot_api_key, parse_mode=None)
 
-# Create the intent classifier
-# intent_classifier = pipeline("zero-shot-classification")
+# Create our BART
+detector = pipeline("zero-shot-classification")
+src_languages = ["german", "english"]
+tgt_languages = ["Arabic", "Chinese", "French", "Italian",
+                 "Japanese", "Korean", "Portuguese", "Russian", "Spanish"]
+
+# Create the translation model
+translator = TranslationModel()
+
+# state
+user_state = {}
+
+######################################################################
+# Implementation
+######################################################################
 
 
-def main():
-    transalation_model = TranslationModel()
+@bot.message_handler(func=lambda m: True)
+def translate(message):
+    """Handles incoming messages from the user
 
-    print(transalation_model.available_languages())
+    """
+    user_message = message.text
+    user_id = message.from_user.id
 
-    print(f"Translation: {transalation_model.translate(
-        text="Hello", source="en", target="es")}")
+    if user_message.capitalize() in tgt_languages:
+        user_state[user_id] = {"target_language": user_message}
+        bot.reply_to(message, f"""Target language set to {
+                     user_message}. Please enter the text you would like to translate to {user_message}.""")
+        return
+
+    if not user_id in user_state:
+        bot.reply_to(message, f"""Hi! I translate English or German to other languages. Please select a target language from the following options to continue: {
+                     tgt_languages}""")
+        return
+
+    if user_id in user_state:
+        target_language = user_state[user_id]["target_language"]
+        detected_language = detector(user_message, src_languages)
+
+        translated_text = translator.translate(
+            text=user_message, source=detected_language['labels'][0], target=target_language)
+
+        bot.reply_to(message, f"""Translation to {
+                     target_language}: {translated_text}.\nContinue translating or select a new target language.""")
+        return
+
+
+bot.infinity_polling()
 
 
 if __name__ == "__main__":
-    main()
+    pass
