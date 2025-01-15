@@ -31,8 +31,10 @@ from dl_translate import TranslationModel
 ######################################################################
 
 def main():
-    ner = pipeline("ner", aggregation_strategy="simple")
-    print(ner("My name is Rocky Balboa and I live in Philly. I train at Mighty Mick's Gym."))
+    ner = pipeline("ner", model="blaze999/Medical-NER",
+                   tokenizer="blaze999/Medical-NER", aggregation_strategy="simple")
+
+    print(ner("Take 1mg of Tylenol every 12 hours for 5 days."))
 
 
 if __name__ == "__main__":
