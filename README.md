@@ -15,7 +15,7 @@ Some of the more interesting experiments are....
 Virtual environment: `python -venv venv`
 
 ```
-pip install transformers datasets
+pip install transformers datasets dl-translate
 pip install --pre torch  --index-url https://download.pytorch.org/whl/nightly/cpu
 pip install jupyterlab
 pip install pytelegrambotapi python-dotenv
