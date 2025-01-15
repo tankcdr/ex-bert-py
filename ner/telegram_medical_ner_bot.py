@@ -26,7 +26,8 @@ bot_api_key = os.getenv("TELEGRAM_BOT_KEY")
 bot = telebot.TeleBot(bot_api_key, parse_mode=None)
 
 # setup the pipeline
-ner = pipeline("ner", model="", tokenizer="", aggregation_strategy="simple")
+ner = pipeline("ner", model="samrawal/bert-large-uncased_med-ner",
+               tokenizer="samrawal/bert-large-uncased_med-ner", aggregation_strategy="simple")
 
 
 ######################################################################
@@ -38,17 +39,24 @@ def echo_all(message):
        Simple named entity recognition using the transformers pipeline.
     """
     entities = ner(message.text)
-    person = "not found"
-    location = "not found"
+
+    medication = "not found"
+    dosage = "not found"
+    frequency = "not found"
+    duration = "not found"
 
     for entity in entities:
-        if entity["entity_group"] == "PER":
-            person = entity["word"]
-        elif entity["entity_group"] == "LOC":
-            location = entity["word"]
+        if entity["entity_group"] == "do":
+            dosage = entity["word"]
+        elif entity["entity_group"] == "m":
+            medication = entity["word"]
+        elif entity["entity_group"] == "f":
+            frequency = entity["word"]
+        elif entity["entity_group"] == "du":
+            duration = entity["word"]
 
-    bot.reply_to(message, f"Hi {
-                 person}, your product will be delivered to {location}.")
+    bot.reply_to(
+        message, f"Medication: {medication} --Dosage: {dosage} --Frequency: {frequency} --Duration: {duration}.")
 
 
 bot.infinity_polling()
